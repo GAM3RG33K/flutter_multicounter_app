@@ -13,6 +13,12 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # For firebase configurations & initializations
+  firebase_core: ^1.10.5
+
+  # Firebase firestore plugin to sync counter states
+  cloud_firestore: ^3.1.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
