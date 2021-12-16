@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_multicounter_app/src/managers/counter_manager.dart';
 
+/// This page is the UI visible for each specific counter page
+///
+/// This UI is used to represent the current status of counter managed by
+/// the provided [manager]
 class CounterPage extends StatefulWidget {
   final CounterManager manager;
 
@@ -16,11 +20,8 @@ class _CounterPageState extends State<CounterPage> {
   @override
   void initState() {
     super.initState();
-    manager.fetchValueFromServer().whenComplete(() {
-      // we may not need this at all
-      if (!mounted) return;
-      setState(() {});
-    });
+    // Sync the current counter value with firestore
+    manager.fetchValueFromServer();
   }
 
   @override
@@ -32,6 +33,7 @@ class _CounterPageState extends State<CounterPage> {
           const Text(
             'You have pushed the button this many times:',
           ),
+          // Update the counter value when the counter state changes
           ValueListenableBuilder<int>(
             valueListenable: manager.valueNotifier,
             builder: (context, value, child) {
@@ -40,6 +42,14 @@ class _CounterPageState extends State<CounterPage> {
                 style: Theme.of(context).textTheme.headline4,
               );
             },
+          ),
+
+          // Button increment the counter for this specific page
+          ElevatedButton(
+            onPressed: () {
+              manager.increment();
+            },
+            child: const Text('Increment me!'),
           ),
         ],
       ),
